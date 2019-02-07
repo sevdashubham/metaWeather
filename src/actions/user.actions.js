@@ -1,8 +1,10 @@
 import {loadingActions} from "./loading.actions";
+import { history } from '../config/history';
 
 export const userActions = {
     login,
-    setUserLocation
+    setUserLocation,
+    logout
 };
 
 function login(username, password) {
@@ -11,13 +13,15 @@ function login(username, password) {
         if (username === 'test@test.com' && password === 'password') {
             setTimeout(function () {
                 dispatch(loadingActions.success());
+                localStorage.setItem('user','token');
+                history.push('/');
                 dispatch(success())
-            }, 5000);
+            }, 2000);
         } else {
             setTimeout(function () {
                 dispatch(loadingActions.success());
                 dispatch(failure())
-            }, 3000);
+            }, 2000);
         }
 
         function success() {
@@ -26,6 +30,17 @@ function login(username, password) {
 
         function failure() {
             return {type: 'LOGIN_FAILURE', payload: false}
+        }
+    }
+}
+
+function logout() {
+    return dispatch => {
+        localStorage.clear();
+        history.push('/login');
+        dispatch(success());
+        function success() {
+            return {type: 'USER_LOGOUT', payload: false}
         }
     }
 }

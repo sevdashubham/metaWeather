@@ -17,6 +17,8 @@ export function user(state = {}, action) {
             };
         case 'WEATHER_FETCH_ERROR':
             return {};
+        case 'USER_LOGOUT':
+            return {};
         default:
             return state
     }
