@@ -7,9 +7,20 @@ import {connect} from "react-redux";
 import {weatherActions} from "../actions/weather.actions";
 import {userActions} from "../actions/user.actions";
 import {loadingActions} from "../actions/loading.actions";
+import Card from '@material-ui/core/Card';
+import Grid from '@material-ui/core/Grid';
+import CardActionArea from '@material-ui/core/CardActionArea';
+
+const styles = {
+    contentSearch: {
+        flex: 1,
+        flexWrap: 'wrap',
+        textAlign: 'center',
+        alignItems: 'center'
+    }
+};
 
 class Search extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -33,9 +44,6 @@ class Search extends React.Component {
     };
     handleChange = keyword => event => {
         this.setState({[keyword]: event.target.value});
-        if (event.target.value === '') {
-            this.setState({searchResponse: []});
-        }
     };
 
     handleSearch() {
@@ -85,7 +93,7 @@ class Search extends React.Component {
         const {searchResponse, dashboard} = this.state;
         const {loading} = this.props;
         return (
-            <div>
+            <div style={styles.contentSearch}>
                 <TextField
                     id="standard-name"
                     label="Search"
@@ -93,8 +101,13 @@ class Search extends React.Component {
                     onChange={this.handleChange('keyword')}
                     margin="normal"
                     disabled={loading}
+                    onKeyPress={event => {
+                        if (event.key === 'Enter') {
+                            this.handleSearch()
+                        }
+                    }}
                 />
-                <Button variant="outlined" onClick={this.handleSearch}>
+                <Button style={{marginTop: 30, marginLeft: 10}} variant="outlined" onClick={this.handleSearch}>
                     Search
                 </Button>
                 {searchResponse.length > 0 ?
@@ -109,19 +122,22 @@ class SearchList extends React.Component {
     render() {
         const {onPress, searchResponse} = this.props;
         return (
-            <div>
+            <Grid container spacing={16} style={{padding: 24}}>
                 {searchResponse.map((item, index) => {
-                    return <div key={item.woeid} onClick={() => onPress(item.woeid)}>
-                        <h4>{item.title}</h4>
-                    </div>
+                    return <Grid item xs={12} sm={6} md={4} lg={3} xl={2}  key={item.woeid}>
+                        <CardActionArea>
+                        <Card onClick={() => onPress(item.woeid)}>
+                        <h3>{item.title}</h3>
+                        </Card>
+                        </CardActionArea>
+                    </Grid>
                 })}
-            </div>
+            </Grid>
 
         );
     }
 }
 
-const styles = {};
 function mapStateToProps(state) {
     const {loading} = state;
     console.log('search state', state);

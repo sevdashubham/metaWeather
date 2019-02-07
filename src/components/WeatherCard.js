@@ -1,51 +1,51 @@
 import Card from '@material-ui/core/Card';
 import React from 'react';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
-import config from "../config/config";
 
 const styles = {
     card: {
-        maxWidth: 345,
+        display: 'flex',
     },
-    media: {
-        height: 140,
+    details: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
     },
+    content: {
+        flex: '1 0 auto',
+        textAlign: 'left'
+    },
+    cover: {
+        alignSelf: 'flex-right',
+        padding: 10,
+        height: 50,
+        width: 50,
+    }
 };
 
-
 export default class WeatherCard extends React.Component {
+    addZ(n){return n<10? '0'+n:''+n;}
     render() {
         const {weather_state_name, weather_state_abbr, max_temp, min_temp, wind_speed, applicable_date} = this.props;
-        // const {title, min_temp, max_temp, wind_speed, humidity, applicable_date,weather_state_name, weather_state_abbr} = this.props;
+        const currentDate = new Date();
+        const today = `${currentDate.getFullYear()}-${this.addZ(currentDate.getMonth() + 1)}-${this.addZ(currentDate.getDate())}`;
+        console.log('today', today);
         return (
-            <Card style={{maxWidth: 345}}>
-                <CardActionArea>
-                    <Typography gutterBottom variant="h5" component="h2">
-                        {applicable_date}
-                    </Typography>
-                    <CardMedia
-                        style={{height: 80, width: 80}}
-                        image={`https://www.metaweather.com/static/img/weather/png/${weather_state_abbr}.png`}
-                        title="Contemplative Reptile"
-                    />
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
-                            {weather_state_name}
-                        </Typography>
-                        <Typography component="p">
-                           Max: {max_temp} C
-                        </Typography>
-                        <Typography component="p">
-                           Min: {min_temp} C
-                        </Typography>
-                        <Typography component="p">
-                           Wind speed: {wind_speed} C
-                        </Typography>
+            <Card style={styles.card}>
+                <div style={styles.details}>
+                    <CardContent style={styles.content}>
+                            <h3>{applicable_date=== today ? 'Today': applicable_date}</h3>
+                            <h2>  {weather_state_name}</h2>
+                            <h6>Max: {parseInt(max_temp)}&deg; C</h6>
+                            <h6>Min: {parseInt(min_temp)}&deg; C</h6>
+                            <h6>Wind speed: {parseInt(wind_speed)} mph</h6>
                     </CardContent>
-                </CardActionArea>
+                    <img
+                        style={styles.cover}
+                        src={`https://www.metaweather.com/static/img/weather/png/${weather_state_abbr}.png`}
+                        alt={'weather'}
+                    />
+                </div>
             </Card>
         );
     }
