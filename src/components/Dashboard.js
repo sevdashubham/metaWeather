@@ -1,34 +1,29 @@
 import React from 'react';
-import metaWeatherService from "../services/metaWeather.service";
 import WeatherCard from "./WeatherCard";
+import {connect} from "react-redux";
 
 class Dashboard extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            consolidated_weather: []
-        };
-    }
-
-    componentDidMount() {
-        this.getWeather();
-    }
-
-    getWeather() {
-        metaWeatherService.getWeatherInformation(44418).then((data) => {
-            console.log(data);
-            this.setState({consolidated_weather: data.consolidated_weather});
-        });
     }
 
     render() {
-        const {consolidated_weather} = this.state;
-        return (
-            <div>
-                <WeatherList weatherList={consolidated_weather}/>
-            </div>
-        )
+        const {weather, loading} = this.props;
+        console.log(weather);
+        if (Object.keys(weather).length === 0) { // evaluates to true if currentVideo is null
+            return <div>Loading...</div>;
+        } else {
+            return (
+                <div>
+                {loading? <div>Loading... again</div> : <div>
+                        <h2>{weather.title}</h2>
+                        <WeatherList weatherList={weather.consolidated_weather}/>
+                    </div>
+                }
+                </div>
+            )
+        }
     }
 }
 
@@ -44,4 +39,15 @@ const WeatherList = ({weatherList}) => (
     </div>
 );
 const styles = {};
-export default Dashboard;
+
+function mapStateToProps(state) {
+    const {weather, loading} = state;
+    console.log('dashboard state', state);
+    return {
+        weather,
+        loading
+    };
+}
+
+export default Dashboard = connect(mapStateToProps)(Dashboard);
+

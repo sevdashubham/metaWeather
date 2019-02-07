@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-// import { items, itemsHasErrored, itemsIsLoading } from './items';
+import { weather} from './weather.reducer';
+import { user } from './user.reducer';
+import {loading} from "./loading.reducer";
 
 export default combineReducers({
-    // items,
-    // itemsHasErrored,
-    // itemsIsLoading
+    weather,
+    user,
+    loading
 });
