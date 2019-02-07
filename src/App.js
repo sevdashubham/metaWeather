@@ -25,7 +25,7 @@ class App extends Component {
                 <AppBar position="static">
                     <Toolbar>
                         <Typography variant="h6" color="inherit" style={{flexGrow: 1}}>
-                            Weather
+                            WeatherMate
                         </Typography>
                         {this.props.user.authentication ?
                             <Button style={{textAlign: 'flex-end'}} color="inherit"
