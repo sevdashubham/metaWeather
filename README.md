@@ -21,7 +21,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 # Features
 Weather app with the following features:
 
-- [x] username: test@test.com & password: password
+- [x] username: test@test.com | password: password
 - [x] Get user's geolocation and display weather information.  Screen should display the city name and a row of cards with the weather state image and queried/useful information.  The screen must be responsive.
 - [x] search bar with a search button for user to search for a specific city.  If the city name is ambiguous, show a screen with the list of cities to choose from. Search bar should be fixed on the top.
 - [x] css spinner when reetriving data from the api.  Disable search bar input when loading.
